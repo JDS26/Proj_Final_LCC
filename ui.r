@@ -106,8 +106,8 @@ shinyUI(
              
              tabPanel("Sobre",p("p creates a paragraph of text."),
                       tags$h1("Original"),
-                      tags$a(href="https://github.com/slocknad/think-visual-think-r", 
-                             "teste"),
+                      tags$a(href="https://github.com/JDS26/Proj_Final_LCC", 
+                             "Pagina do Github"),
                       
                      ),
              tabPanel("Autoria", p("p creates a paragraph of text.") 
