@@ -122,9 +122,10 @@ shinyServer(function(input, output, session) {
         plot_ly(
           x = ~data1[, input$var1],
           y = ~data1[, input$var2],
-          frame = data1[, input$var3],
+          frame = data1[, input$var1],
           type = 'scatter',
-          mode = 'markers',
+          mode = 'point',
+          #mode = 'lines',
           marker = list(size = 20),
           showlegend = FALSE
         ) %>% 
@@ -146,10 +147,6 @@ shinyServer(function(input, output, session) {
     # table
     output$table <- renderDataTable({
       data1
-    })
-    
-    output$about <- renderText({
-      c("Hello shiny !")
     })
     
   })

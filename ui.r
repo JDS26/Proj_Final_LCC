@@ -7,21 +7,20 @@ library(gapminder)
 library(dplyr)
 library(highcharter)
 library(htmlwidgets)
+library(shinythemes)
 # Define UI for application that draws a histogram
 shinyUI(
   # navbarPage
   navbarPage("Think Visual Think R",
              
-             # theme css
-             theme = "css/bootstrap2.min.css",
+             # theme 
+             theme = bslib::bs_theme(bootswatch = "darkly"),
              
-             uiOutput("tab"),
-             
-             fileInput(inputId = "id_file", label = "Seleciona um ficheiro .csv:"),
+             #uiOutput("tab"),
              
              # First tab Data
              tabPanel("Data",
-                      
+                      fileInput(inputId = "id_file", label = "Seleciona um ficheiro .csv:"),
                       navlistPanel(
                         widths = c(2, 10), 
                         tabPanel("Table", 
@@ -35,7 +34,7 @@ shinyUI(
              
              # second tab Visualization
              tabPanel("Visualization", 
-                      
+                      #fileInput(inputId = "id_file1", label = "Seleciona um ficheiro .csv:"),
                       fluidRow(
                         # first column
                         column(width = 3, 
@@ -105,12 +104,15 @@ shinyUI(
              ),
              
              tabPanel("Sobre",p("p creates a paragraph of text."),
-                      tags$h1("Original"),
+                     ),
+             tabPanel("Autoria", p("App desenvolvida no ambito da UC Projeto de LCC por:"),
+                      p("- Hugo Costeira a87971,"),
+                      p("- Joao Diogo Silva a87939,"),
+                      p("- Joao Pedro Gouveia a87,"),
+                      p("- Pedro Martins a87"),
+                      tags$h1("Codigo fonte"),
                       tags$a(href="https://github.com/JDS26/Proj_Final_LCC", 
                              "Pagina do Github"),
-                      
-                     ),
-             tabPanel("Autoria", p("p creates a paragraph of text.") 
              )
     )
 )
