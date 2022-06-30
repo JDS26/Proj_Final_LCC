@@ -1,10 +1,23 @@
 shinyServer(function(input, output, session) {
   
+  substrRight <- function(x, n){
+    substr(x, nchar(x)-n+1, nchar(x))
+  }
+  
   observe({
     # Para ler o ficheiro de input
     file1 = input$id_file
     req(file1)
-    data1 = read.csv(file1$datapath)
+    print(file1$datapath)
+    if(substrRight(file1$datapath,3)=="csv"){
+      data1 = read.csv(file1$datapath)
+    }
+    else{
+      if(substrRight(file1$datapath,4)=="xlsx"){
+          data1=read_excel(file1$datapath, 1)
+        }
+    }
+    
     
     # reactive data
     datax <- reactive({
@@ -71,6 +84,7 @@ shinyServer(function(input, output, session) {
     })
     
     ## grafico de densidade
+    
     output$densidade <- renderPlot({
       data1 %>%
         ggplot( aes(x=data1[,input$var1])) +
@@ -79,7 +93,7 @@ shinyServer(function(input, output, session) {
         labs(x = input$var1)
     })
     
-    ## ggplot
+    ## dispersao
     output$grafico <- renderPlot({
       ggplot(data1, aes(x = data1[, input$var1], y = data1[, input$var2])) +
         geom_point()+
@@ -97,24 +111,10 @@ shinyServer(function(input, output, session) {
     ## scatter plot
     output$plot <- renderPlotly({
       
-      plot_ly(data1, x = ~data1[, input$var1], y = ~data1[, input$var2], color = ~data1[, input$var3], colors = data1[, input$var3])%>%
+      plot_ly(data1, x = ~data1[, input$var1], y = ~data1[, input$var2], color = ~data1[, input$var3],type = 'scatter')%>%
       layout(title = input$title, xaxis = list(title = input$var1), 
              yaxis = list(title = input$var2), legend = list(title=list(text=input$var3)))
     })
-    
-    # output$detailed_plot <- renderPlotly({
-    #   data1 %>%
-    #     plot_ly(
-    #       x = ~data1[, input$var1],
-    #       y = ~data1[, input$var2],
-    #       frame = data1[, input$var3],
-    #       type = 'scatter',
-    #       mode = 'markers',
-    #       marker = list(size = 20),
-    #       showlegend = FALSE
-    #     )%>%
-    #     layout(xaxis = list(title = input$var1), yaxis = list(title = input$var2))
-    # })
     
     ## grafico animado
     output$animated_plot <- renderPlotly({
@@ -125,7 +125,6 @@ shinyServer(function(input, output, session) {
           frame = data1[, input$var1],
           type = 'scatter',
           mode = 'point',
-          #mode = 'lines',
           marker = list(size = 20),
           showlegend = FALSE
         ) %>% 
@@ -134,7 +133,7 @@ shinyServer(function(input, output, session) {
         function(el,x){
           $('#anim').on('click', function(){Plotly.animate(el);});
         }")%>%
-        layout(title =input$title,xaxis = list(title = input$var1), yaxis = list(title = input$var2))
+        layout(title =input$title, xaxis = list(title = input$var1), yaxis = list(title = input$var2))
     })
     
     ##
