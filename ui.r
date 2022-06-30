@@ -1,14 +1,6 @@
-library(shiny)
-library(rAmCharts)
-library(colourpicker)
-library(ggplot2)
-library(plotly)
-library(gapminder)
-library(dplyr)
-library(highcharter)
-library(htmlwidgets)
-library(shinythemes)
-library(readxl)
+install.packages(setdiff(c("pacman"), rownames(installed.packages())))  
+
+pacman::p_load(shiny, ggplot2, plotly,rAmCharts,colourpicker,gapminder,dplyr,highcharter,htmlwidgets,shinythemes,readxl)
 
 shinyUI(
   
